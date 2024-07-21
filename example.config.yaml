@@ -5,7 +5,7 @@ sources:
     api_key: "API KEY"
   malpedia:
     api_key: "API KEY"
-  malware_bazaar:
+  malwarebazaar:
     api_key: "API KEY"
   virusshare:
     api_key: "API KEY"
