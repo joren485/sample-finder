@@ -29,8 +29,8 @@ class SourceVirusshare(Source):
         response = self._get(
             f"{self.URL_API}/download", params={"apikey": self._config["api_key"], "hash": sample_hash}
         )
-        if not response or response.status_code != 200:
-            if response.status_code == 204:
+        if response is None or response.status_code != 200:
+            if response and response.status_code == 204:
                 logger.warning("Rate limited")
             return False
 

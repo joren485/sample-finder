@@ -1,8 +1,9 @@
 import io
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Literal, Self
 
-import pyzipper
+import pyzipper  # type: ignore[import]
 import requests
 from loguru import logger
 
@@ -13,7 +14,7 @@ class Source:
     """Abstract class for Source."""
 
     NAME: str | None = None
-    SUPPORTED_HASHES: tuple[Literal["md5", "sha1", "sha256"]] = ("md5", "sha1", "sha256")
+    SUPPORTED_HASHES: Iterable[Literal["md5", "sha1", "sha256"]] = ("md5", "sha1", "sha256")
 
     def __init__(self, config: dict) -> None:
         """Construct a source."""
@@ -29,8 +30,7 @@ class Source:
             or ("sha256" in cls.SUPPORTED_HASHES and verify_sha256(h))
         )
 
-    @classmethod
-    def download_file(cls, sample_hash: str, output_path: Path) -> bool:
+    def download_file(self, sample_hash: str, output_path: Path) -> bool:
         """
         Download a sample from a source.
 
