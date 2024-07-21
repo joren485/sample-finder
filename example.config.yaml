@@ -1,0 +1,14 @@
+---
+
+sources:
+  malshare:
+    api_key: "API KEY"
+  malpedia:
+    api_key: "API KEY"
+  malware_bazaar:
+    api_key: "API KEY"
+  virusshare:
+    api_key: "API KEY"
+  virustotal:
+    api_key: "API KEY"
+    premium: false
