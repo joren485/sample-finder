@@ -26,3 +26,6 @@ jobs:
 
       - name: "Run ruff linting"
         run: "poetry run ruff check ."
+
+      - name: "Run mypy"
+        run: "poetry run mypy ."
