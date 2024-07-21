@@ -12,6 +12,7 @@ app = typer.Typer(name="Malware Sample Finder")
 
 
 def read_hashes(input_file: Path) -> dict[str, bool]:
+    """Read hashes from a file."""
     hashes = {}
     with input_file.open("r") as h_files:
         for line in h_files:
@@ -20,7 +21,7 @@ def read_hashes(input_file: Path) -> dict[str, bool]:
             if not line or line.startswith("#"):
                 continue
 
-            if len(line) not in (32, 40, 64):
+            if not Source.supported_hash(line):
                 logger.warning(f"Invalid hash: '{line}'")
 
             hashes[line] = False
@@ -39,7 +40,8 @@ def find_samples(
         Path, typer.Option("--config", "-c", exists=True, dir_okay=False, file_okay=True, readable=True)
     ] = Path("./config.yaml"),
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
-):
+) -> None:
+    """Download hashes from multiple sources."""
     with config_file.open("r") as h_file:
         config = yaml.safe_load(h_file)
 

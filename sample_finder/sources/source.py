@@ -1,6 +1,6 @@
 import io
 from pathlib import Path
-from typing import Self, Literal
+from typing import Literal, Self
 
 import pyzipper
 import requests
@@ -10,15 +10,19 @@ from sample_finder.validators import verify_md5, verify_sha1, verify_sha256
 
 
 class Source:
+    """Abstract class for Source."""
+
     NAME: str | None = None
     SUPPORTED_HASHES: tuple[Literal["md5", "sha1", "sha256"]] = ("md5", "sha1", "sha256")
 
     def __init__(self, config: dict) -> None:
+        """Construct a source."""
         self._session = requests.Session()
         self._config = config
 
     @classmethod
     def supported_hash(cls, h: str) -> bool:
+        """Check if the hash matches one of the supported hashes."""
         return (
             ("md5" in cls.SUPPORTED_HASHES and verify_md5(h))
             or ("sha1" in cls.SUPPORTED_HASHES and verify_sha1(h))
@@ -27,6 +31,11 @@ class Source:
 
     @classmethod
     def download_file(cls, sample_hash: str, output_path: Path) -> bool:
+        """
+        Download a sample from a source.
+
+        This should be implemented by each source.
+        """
         raise NotImplementedError
 
     def _get(self, url: str, params: dict | None = None) -> requests.Response | None:
@@ -57,10 +66,11 @@ class Source:
         if len(response.text) >= 100:
             data += "..."
 
-        logger.debug(f"Got response: {repr(data)}")
+        logger.debug(f"Got response: {data!r}")
 
     @classmethod
     def get_source(cls, name: str, config: dict) -> Self:
+        """Get source instance from a name and config dict."""
         for source in cls.__subclasses__():
             if name == source.NAME:
                 return source(config)

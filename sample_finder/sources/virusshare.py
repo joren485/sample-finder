@@ -1,4 +1,3 @@
-import base64
 from pathlib import Path
 
 from loguru import logger
@@ -7,13 +6,26 @@ from sample_finder.sources.source import Source
 
 
 class SourceVirusshare(Source):
+    """
+    Implements VirusShare Source.
+
+    References
+    ----------
+        * https://virusshare.com/apiv2_reference
+
+    """
+
     NAME = "virusshare"
     URL_API = "https://virusshare.com/apiv2"
 
-    def __init__(self, config: dict) -> None:
-        super().__init__(config)
-
     def download_file(self, sample_hash: str, output_path: Path) -> bool:
+        """
+        Download a file from VirusShare.
+
+        If status code 204 is returned, we are rate limited.
+
+        The sample is zip compressed and encrypted.
+        """
         response = self._get(
             f"{self.URL_API}/download", params={"apikey": self._config["api_key"], "hash": sample_hash}
         )
