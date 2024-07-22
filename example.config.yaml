@@ -12,3 +12,5 @@ sources:
   virustotal:
     api_key: "API KEY"
     premium: false
+  triage:
+    api_key: "API KEY"
