@@ -8,6 +8,7 @@ Sample Finder is a modular tool to search for and download malware samples from 
 * [Malware Bazaar](https://bazaar.abuse.ch/)
 * [VirusShare](https://virusshare.com/)
 * [VirusTotal](https://www.virustotal.com)
+* [Triage](https://tria.ge/)
 
 ### Installation
 ```bash

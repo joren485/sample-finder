@@ -21,7 +21,7 @@ class SourceMalpedia(Source):
 
     def __init__(self, config: dict) -> None:
         """
-        Construct Malpedia object.
+        Construct SourceMalpedia object.
 
         Add the api key to the session headers.
         """
