@@ -35,9 +35,12 @@ class SourceMalpedia(Source):
             return False
 
         response_json = response.json()
-        data = base64.b64decode(response_json["packed"])
 
-        with output_path.open("wb") as h_file:
-            h_file.write(data)
+        for key in ("unpacked", "packed"):
+            if key in response_json:
+                data = base64.b64decode(response_json[key])
+                with output_path.open("wb") as h_file:
+                    h_file.write(data)
+                return True
 
-        return True
+        return False
