@@ -11,7 +11,7 @@ __all__ = [
     "SourceMalpedia",
     "SourceMalshare",
     "SourceMalwareBazaar",
-    "SourceVirustotal",
-    "SourceVirusshare",
     "SourceTriage",
+    "SourceVirusshare",
+    "SourceVirustotal",
 ]
