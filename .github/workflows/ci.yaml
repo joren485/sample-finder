@@ -10,15 +10,8 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
 
-      - name: "Set up Python"
-        uses: "actions/setup-python@v5"
-        with:
-          python-version: "3.13"
-
       - name: "Install uv"
-        run: |
-          pip install uv
-          uv sync
+        uses: astral-sh/setup-uv@v5
 
       - name: "Run ruff formatting"
         run: "uv run ruff format --check ."
