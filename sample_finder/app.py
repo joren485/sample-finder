@@ -67,13 +67,17 @@ def find_samples(
                 continue
 
             if not source.supported_hash(h):
-                logger.warning(f"Skipping unsupported hash: '{h}'")
+                logger.debug(f"Skipping unsupported hash: '{h}'")
                 continue
 
             logger.info(f"Searching for: '{h}'")
 
             output_path_sample = output_dir / f"{h}.bin"
-            download_success = source.download_file(sample_hash=h, output_path=output_path_sample)
+            try:
+                download_success = source.download_file(sample_hash=h, output_path=output_path_sample)
+            except Exception as e:
+                logger.warning(f"Error: {e}")
+                continue
 
             if download_success:
                 logger.success(f"Downloaded '{h}' to {output_path_sample}")
