@@ -82,3 +82,12 @@ class Source:
         with pyzipper.AESZipFile(zip_data, encryption=pyzipper.WZ_AES) as h_zip:
             h_zip.setpassword(password)
             return h_zip.read(h_zip.filelist[0])
+
+    @staticmethod
+    def _download_without_auth(url: str, output_path: Path) -> None:
+        """Download the contents of an url without any authentication."""
+        with requests.get(url, stream=True) as response:
+            response.raise_for_status()
+            with output_path.open("wb") as h_file:
+                for chunk in response.iter_content(chunk_size=8192):
+                    h_file.write(chunk)
