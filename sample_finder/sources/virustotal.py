@@ -31,7 +31,6 @@ class SourceVirustotal(Source):
         """
         super().__init__(config)
         self._session.headers.update({"x-apikey": self._config["api_key"]})
-        self._is_premium = self._config.get("premium", False)
 
     def download_file(self, sample_hash: str, output_path: Path) -> bool:
         """
@@ -42,9 +41,6 @@ class SourceVirustotal(Source):
         As downloading files from VirusTotal requires a premium account,
         we currently only support checking if the file exists.
         """
-        if self._is_premium:
-            raise NotImplementedError
-
         response = self._get(f"{self.URL_API}/files/{sample_hash}")
         if not response or not response.ok:
             return False

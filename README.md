@@ -11,11 +11,22 @@ Sample Finder is a modular tool to search for and download malware samples from 
 * [Triage](https://tria.ge/)
 
 ### Installation
+#### Pip
+```bash
+$ pip install sample-finder
+```
+
 ```bash
 $ git clone git@github.com:joren485/sample-finder.git
 $ cd sample-finder
-$ poetry install
+$ uv sync
+$ source .venv/bin/activate
+$ sample-finder --help
 ```
+
+### Config
+You need a config file with API tokens for each supported source.
+You can find an example in `example.confg.yaml`.
 
 ### Usage
 ```bash
