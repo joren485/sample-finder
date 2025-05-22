@@ -38,8 +38,14 @@ jobs:
           - "3.13"
     steps:
       - uses: "actions/checkout@v4"
+
       - name: "Install uv and set the python version"
         uses: "astral-sh/setup-uv@v5"
         with:
           python-version: "${{ matrix.python-version }}"
+
       - run: "uv run sample-finder --help"
+
+      - run: "uv run coverage run -m pytest tests"
+
+      - run: "uv run coverage report"

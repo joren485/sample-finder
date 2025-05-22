@@ -14,7 +14,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "coverage>=7.8.1",
     "mypy>=1.15.0",
+    "pytest>=8.3.5",
     "ruff>=0.11.10",
     "types-pyyaml>=6.0.12.20250516",
     "types-requests>=2.32.0.20250515",
@@ -40,7 +42,9 @@ select = ["ALL"]
 ignore = [
     "ARG002",
     "EM102",
+    "FBT001",
     "FBT002",
+    "BLE001",
     "COM812",
     "D100",
     "D104",
@@ -50,4 +54,12 @@ ignore = [
     "PLR2004",
     "PLW2901",
     "TRY003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "ANN201",
+    "D101",
+    "D102",
+    "S101",
 ]

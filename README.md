@@ -7,8 +7,8 @@ Sample Finder is a modular tool to search for and download malware samples from 
 * [MalShare](https://malshare.com/)
 * [Malware Bazaar](https://bazaar.abuse.ch/)
 * [VirusShare](https://virusshare.com/)
-* [VirusTotal](https://www.virustotal.com)
 * [Triage](https://tria.ge/)
+* [VirusTotal](https://www.virustotal.com) (only checks the existence, does not support downloading)
 
 ### Installation
 #### Pip
@@ -27,7 +27,24 @@ $ sample-finder --help
 
 ### Config
 You need a config file with API tokens for each supported source.
-You can find an example in `example.confg.yaml`.
+You can find an example in `example.confg.yaml`:
+```yaml
+---
+
+sources:
+  malshare:
+    api_key: "API KEY"
+  malpedia:
+    api_key: "API KEY"
+  malwarebazaar:
+    api_key: "API KEY"
+  virusshare:
+    api_key: "API KEY"
+  virustotal:
+    api_key: "API KEY"
+  triage:
+    api_key: "API KEY"
+```
 
 ### Usage
 ```bash
