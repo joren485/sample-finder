@@ -16,6 +16,7 @@ Sample Finder is a modular tool to search for and download malware samples from 
 $ pip install sample-finder
 ```
 
+#### Development
 ```bash
 $ git clone git@github.com:joren485/sample-finder.git
 $ cd sample-finder
