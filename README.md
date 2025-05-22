@@ -9,7 +9,7 @@ Sample Finder is a modular tool to search for and download malware samples from 
 * [VirusShare](https://virusshare.com/)
 * [Triage](https://tria.ge/)
 * [VirusExchange](https://virus.exchange)
-* [VirusTotal](https://www.virustotal.com) (only checks the existence, does not support downloading)
+* [VirusTotal](https://www.virustotal.com) (only checks if the sample is available on VirusTotal and does not support downloading)
 
 ### Installation
 #### Pip
@@ -44,6 +44,8 @@ sources:
   virustotal:
     api_key: "API KEY"
   triage:
+    api_key: "API KEY"
+  virusexchange:
     api_key: "API KEY"
 ```
 
