@@ -13,3 +13,5 @@ sources:
     api_key: "API KEY"
   triage:
     api_key: "API KEY"
+  virusexchange:
+    api_key: "API KEY"
