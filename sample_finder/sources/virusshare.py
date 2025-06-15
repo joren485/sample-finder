@@ -34,8 +34,12 @@ class SourceVirusshare(Source):
                 logger.warning("Rate limited")
             return False
 
-        data = self._decrypt_zip(response.content)
-        with output_path.open("wb") as h_file:
-            h_file.write(data)
-
-        return True
+        try:
+            data = self._decrypt_zip(response.content)
+            with output_path.open("wb") as h_file:
+                h_file.write(data)
+        except ValueError as e:
+            logger.warning(f"Failed to decrypt ZIP file: {e}")
+            return False
+        else:
+            return True
