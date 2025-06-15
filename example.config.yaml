@@ -1,17 +1,17 @@
 ---
 
 sources:
-  malshare:
-    api_key: "API KEY"
   malpedia:
     api_key: "API KEY"
   malwarebazaar:
     api_key: "API KEY"
-  virusshare:
-    api_key: "API KEY"
-  virustotal:
+  malshare:
     api_key: "API KEY"
   triage:
     api_key: "API KEY"
   virusexchange:
+    api_key: "API KEY"
+  virusshare:
+    api_key: "API KEY"
+  virustotal:
     api_key: "API KEY"

@@ -16,6 +16,8 @@ class Source:
     NAME: str | None = None
     SUPPORTED_HASHES: Iterable[Literal["md5", "sha1", "sha256"]] = ("md5", "sha1", "sha256")
 
+    DEFAULT_ZIP_PASSWORD = b"infected"
+
     def __init__(self, config: dict) -> None:
         """Construct a source."""
         self._session = requests.Session()
@@ -45,7 +47,7 @@ class Source:
             logger.warning(f"Exception: {e}")
             return None
 
-        self._log_response(response)
+        logger.debug(f"Got response: {response.text[:20]!r}")
 
         return response
 
@@ -56,17 +58,9 @@ class Source:
             logger.warning(f"Exception: {e}")
             return None
 
-        self._log_response(response)
+        logger.debug(f"Got response: {response.text[:20]!r}")
 
         return response
-
-    @staticmethod
-    def _log_response(response: requests.Response) -> None:
-        data = response.text[:100]
-        if len(response.text) >= 100:
-            data += "..."
-
-        logger.debug(f"Got response: {data!r}")
 
     @classmethod
     def get_source(cls, name: str, config: dict) -> Self:
@@ -78,16 +72,11 @@ class Source:
 
     @staticmethod
     def _decrypt_zip(data: bytes, password: bytes = b"infected") -> bytes:
+        """Decrypt a ZIP file with a given password."""
+        if not data.startswith(b"PK\x03\x04"):
+            raise ValueError(f"Data is not a valid ZIP file: {data[:20]!r}")
+
         zip_data = io.BytesIO(data)
         with pyzipper.AESZipFile(zip_data, encryption=pyzipper.WZ_AES) as h_zip:
             h_zip.setpassword(password)
             return h_zip.read(h_zip.filelist[0])
-
-    @staticmethod
-    def _download_without_auth(url: str, output_path: Path) -> None:
-        """Download the contents of an url without any authentication."""
-        with requests.get(url, stream=True) as response:
-            response.raise_for_status()
-            with output_path.open("wb") as h_file:
-                for chunk in response.iter_content(chunk_size=8192):
-                    h_file.write(chunk)

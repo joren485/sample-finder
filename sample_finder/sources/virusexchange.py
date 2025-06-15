@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import requests
+
 from sample_finder.sources.source import Source
 
 
@@ -35,3 +37,11 @@ class SourceVirusExchange(Source):
         download_link = response.json()["download_link"]
         self._download_without_auth(download_link, output_path)
         return True
+
+    def _download_without_auth(self, url: str, output_path: Path) -> None:
+        """Download the contents of an url without any authentication."""
+        with requests.get(url, stream=True) as response:
+            response.raise_for_status()
+            with output_path.open("wb") as h_file:
+                for chunk in response.iter_content(chunk_size=8192):
+                    h_file.write(chunk)
