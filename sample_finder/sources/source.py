@@ -7,14 +7,30 @@ import pyzipper  # type: ignore[import]
 import requests
 from loguru import logger
 
-from sample_finder.validators import verify_md5, verify_sha1, verify_sha256
+from sample_finder.validators import verify_md5, verify_sha1, verify_sha224, verify_sha256, verify_sha384, verify_sha512
+
+HASH_TYPE = Literal[
+    "md5",
+    "sha1",
+    "sha224",
+    "sha256",
+    "sha384",
+    "sha512",
+]
 
 
 class Source:
     """Abstract class for Source."""
 
     NAME: str | None = None
-    SUPPORTED_HASHES: Iterable[Literal["md5", "sha1", "sha256"]] = ("md5", "sha1", "sha256")
+    SUPPORTED_HASHES: Iterable[HASH_TYPE] = (
+        "md5",
+        "sha1",
+        "sha224",
+        "sha256",
+        "sha384",
+        "sha512",
+    )
 
     DEFAULT_ZIP_PASSWORD = b"infected"
 
@@ -29,7 +45,10 @@ class Source:
         return (
             ("md5" in cls.SUPPORTED_HASHES and verify_md5(h))
             or ("sha1" in cls.SUPPORTED_HASHES and verify_sha1(h))
+            or ("sha224" in cls.SUPPORTED_HASHES and verify_sha224(h))
             or ("sha256" in cls.SUPPORTED_HASHES and verify_sha256(h))
+            or ("sha384" in cls.SUPPORTED_HASHES and verify_sha384(h))
+            or ("sha512" in cls.SUPPORTED_HASHES and verify_sha512(h))
         )
 
     def download_file(self, sample_hash: str, output_path: Path) -> bool:

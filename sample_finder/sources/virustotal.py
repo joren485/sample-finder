@@ -20,8 +20,8 @@ class SourceVirustotal(Source):
 
     NAME = "virustotal"
     URL_API = "https://www.virustotal.com/api/v3"
-
     URL_WEBAPP = "https://www.virustotal.com/gui/file"
+    SUPPORTED_HASHES = ("md5", "sha1", "sha256")
 
     def __init__(self, config: dict) -> None:
         """

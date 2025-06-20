@@ -17,6 +17,7 @@ class SourceVirusshare(Source):
 
     NAME = "virusshare"
     URL_API = "https://virusshare.com/apiv2"
+    SUPPORTED_HASHES = ("md5", "sha1", "sha256", "sha512")
 
     def download_file(self, sample_hash: str, output_path: Path) -> bool:
         """

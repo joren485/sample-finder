@@ -15,6 +15,7 @@ class SourceMalshare(Source):
 
     NAME = "malshare"
     URL_API = "https://malshare.com/api.php"
+    SUPPORTED_HASHES = ("md5", "sha1", "sha256")
 
     def download_file(self, sample_hash: str, output_path: Path) -> bool:
         """Download a file from MalShare."""

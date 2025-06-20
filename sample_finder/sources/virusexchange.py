@@ -39,7 +39,7 @@ class SourceVirusExchange(Source):
         return True
 
     def _download_without_auth(self, url: str, output_path: Path) -> None:
-        """Download the contents of an url without any authentication."""
+        """Download the contents of a url without any authentication."""
         with requests.get(url, stream=True) as response:
             response.raise_for_status()
             with output_path.open("wb") as h_file:
