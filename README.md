@@ -6,9 +6,10 @@ Sample Finder is a modular tool to search for and download malware samples from 
 * [Malpedia](https://malpedia.caad.fkie.fraunhofer.de/)
 * [MalShare](https://malshare.com/)
 * [Malware Bazaar](https://bazaar.abuse.ch/)
-* [VirusShare](https://virusshare.com/)
+* [MWDB](https://mwdb.cert.pl/)
 * [Triage](https://tria.ge/)
 * [VirusExchange](https://virus.exchange)
+* [VirusShare](https://virusshare.com/)
 * [VirusTotal](https://www.virustotal.com) (only checks if the sample is available on VirusTotal and does not support downloading)
 
 ### Installation
