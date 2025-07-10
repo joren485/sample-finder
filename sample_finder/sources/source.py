@@ -3,7 +3,7 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Literal, Self
 
-import pyzipper  # type: ignore[import]
+import pyzipper  # type: ignore[import-untyped]
 import requests
 from loguru import logger
 
@@ -34,7 +34,7 @@ class Source:
 
     DEFAULT_ZIP_PASSWORD = b"infected"
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict[str, str]) -> None:
         """Construct a source."""
         self._session = requests.Session()
         self._config = config
@@ -59,7 +59,7 @@ class Source:
         """
         raise NotImplementedError
 
-    def _get(self, url: str, params: dict | None = None) -> requests.Response | None:
+    def _get(self, url: str, params: dict[str, str] | None = None) -> requests.Response | None:
         try:
             response = self._session.get(url, params=params)
         except requests.RequestException as e:
@@ -70,7 +70,7 @@ class Source:
 
         return response
 
-    def _post(self, url: str, data: dict | None = None) -> requests.Response | None:
+    def _post(self, url: str, data: dict[str, str] | None = None) -> requests.Response | None:
         try:
             response = self._session.post(url, data=data)
         except requests.RequestException as e:
@@ -82,7 +82,7 @@ class Source:
         return response
 
     @classmethod
-    def get_source(cls, name: str, config: dict) -> Self:
+    def get_source(cls, name: str, config: dict[str, str]) -> Self:
         """Get source instance from a name and config dict."""
         for source in cls.__subclasses__():
             if name == source.NAME:
@@ -98,4 +98,4 @@ class Source:
         zip_data = io.BytesIO(data)
         with pyzipper.AESZipFile(zip_data, encryption=pyzipper.WZ_AES) as h_zip:
             h_zip.setpassword(password)
-            return h_zip.read(h_zip.filelist[0])
+            return bytes(h_zip.read(h_zip.filelist[0]))

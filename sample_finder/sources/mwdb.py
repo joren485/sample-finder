@@ -18,7 +18,7 @@ class SourceMWDB(Source):
     URL_FILE = f"{URL_API}/file"
     SUPPORTED_HASHES = ("md5", "sha1", "sha256", "sha512")
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict[str, str]) -> None:
         """Construct SourceMWDB object."""
         super().__init__(config)
         self._session.headers.update({"Authorization": f"Bearer {self._config['api_key']}"})
