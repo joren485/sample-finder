@@ -64,3 +64,6 @@ ignore = [
     "D102",
     "S101",
 ]
+
+[tool.mypy]
+strict = true

@@ -19,7 +19,7 @@ class SourceVirusExchange(Source):
     URL_API = "https://virus.exchange/api/samples/"
     SUPPORTED_HASHES = ("sha256",)
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict[str, str]) -> None:
         """
         Construct SourceVirusExchange object.
 

@@ -19,7 +19,7 @@ class SourceMalpedia(Source):
 
     SUPPORTED_HASHES = ("md5", "sha256")
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict[str, str]) -> None:
         """
         Construct SourceMalpedia object.
 

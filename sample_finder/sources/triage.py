@@ -17,7 +17,7 @@ class SourceTriage(Source):
     URL_API = "https://tria.ge/api/v0"
     SUPPORTED_HASHES = ("md5", "sha1", "sha256", "sha512")
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict[str, str]) -> None:
         """
         Construct SourceTriage object.
 
