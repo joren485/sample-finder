@@ -1,6 +1,9 @@
 from pathlib import Path
 
+from loguru import logger
+
 from sample_finder.sources.source import Source
+from sample_finder.validators import validate_content_hash
 
 
 class SourceTriage(Source):
@@ -28,9 +31,7 @@ class SourceTriage(Source):
 
     def download_file(self, sample_hash: str, output_path: Path) -> bool:
         """Download a file from Triage."""
-        sample_hash = self._get_hash_prefix(sample_hash)
-
-        response = self._get(f"{self.URL_API}/search", params={"query": sample_hash})
+        response = self._get(f"{self.URL_API}/search", params={"query": self._generate_hash_query(sample_hash)})
         if response is None or not response.ok:
             return False
 
@@ -38,29 +39,38 @@ class SourceTriage(Source):
         if len(data) == 0:
             return False
 
-        sample_id = data[0]["id"]
-        response = self._get(f"{self.URL_API}/samples/{sample_id}/sample")
-        if response is None or not response.ok:
-            return False
+        for sample in data:
+            sample_id = sample["id"]
+            response = self._get(f"{self.URL_API}/samples/{sample_id}/sample")
+            if response is None or not response.ok:
+                continue
 
-        with output_path.open("wb") as h_file:
-            h_file.write(response.content)
+            if not validate_content_hash(sample_hash=sample_hash, data=response.content):
+                logger.debug("Found sample with invalid hash")
+                continue
 
-        return True
+            with output_path.open("wb") as h_file:
+                h_file.write(response.content)
+
+            return True
+
+        return False
 
     @staticmethod
-    def _get_hash_prefix(sample_hash: str) -> str:
+    def _generate_hash_query(sample_hash: str) -> str:
         """Prefix a hash with its type."""
-        if len(sample_hash) == 32:
-            return f"md5:{sample_hash}"
+        match len(sample_hash):
+            case 32:
+                return f"md5:{sample_hash}"
 
-        if len(sample_hash) == 40:
-            return f"sha1:{sample_hash}"
+            case 40:
+                return f"sha1:{sample_hash}"
 
-        if len(sample_hash) == 64:
-            return f"sha256:{sample_hash}"
+            case 64:
+                return f"sha256:{sample_hash}"
 
-        if len(sample_hash) == 128:
-            return f"sha512:{sample_hash}"
+            case 128:
+                return f"sha512:{sample_hash}"
 
-        raise ValueError(f"Unknown hash: {sample_hash}")
+            case _:
+                raise ValueError(f"Unknown hash: {sample_hash}")

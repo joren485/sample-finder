@@ -22,7 +22,7 @@ HASH_TYPE = Literal[
 class Source:
     """Abstract class for Source."""
 
-    NAME: str | None = None
+    NAME: str
     SUPPORTED_HASHES: Iterable[HASH_TYPE] = (
         "md5",
         "sha1",
@@ -40,15 +40,15 @@ class Source:
         self._config = config
 
     @classmethod
-    def supported_hash(cls, h: str) -> bool:
+    def supported_hash(cls, sample_hash: str) -> bool:
         """Check if the hash matches one of the supported hashes."""
         return (
-            ("md5" in cls.SUPPORTED_HASHES and verify_md5(h))
-            or ("sha1" in cls.SUPPORTED_HASHES and verify_sha1(h))
-            or ("sha224" in cls.SUPPORTED_HASHES and verify_sha224(h))
-            or ("sha256" in cls.SUPPORTED_HASHES and verify_sha256(h))
-            or ("sha384" in cls.SUPPORTED_HASHES and verify_sha384(h))
-            or ("sha512" in cls.SUPPORTED_HASHES and verify_sha512(h))
+            ("md5" in cls.SUPPORTED_HASHES and verify_md5(sample_hash))
+            or ("sha1" in cls.SUPPORTED_HASHES and verify_sha1(sample_hash))
+            or ("sha224" in cls.SUPPORTED_HASHES and verify_sha224(sample_hash))
+            or ("sha256" in cls.SUPPORTED_HASHES and verify_sha256(sample_hash))
+            or ("sha384" in cls.SUPPORTED_HASHES and verify_sha384(sample_hash))
+            or ("sha512" in cls.SUPPORTED_HASHES and verify_sha512(sample_hash))
         )
 
     def download_file(self, sample_hash: str, output_path: Path) -> bool:
