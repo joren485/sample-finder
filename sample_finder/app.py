@@ -16,7 +16,7 @@ def read_hashes(input_file: Path) -> dict[str, bool]:
     hashes = {}
     with input_file.open("r") as h_files:
         for line in h_files:
-            line = line.strip()
+            line = line.strip().lower()
 
             if not line or line.startswith("#"):
                 continue
