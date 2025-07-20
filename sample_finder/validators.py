@@ -46,25 +46,22 @@ def validate_content_hash(sample_hash: str, data: bytes) -> bool:
     """
     match len(sample_hash):
         case 32:
-            h = MD5.new()
+            return MD5.new(data=data).hexdigest() == sample_hash
 
         case 40:
-            h = SHA1.new()
+            return SHA1.new(data=data).hexdigest() == sample_hash
 
         case 56:
-            h = SHA224.new()
+            return SHA224.new(data=data).hexdigest() == sample_hash
 
         case 64:
-            h = SHA256.new()
+            return SHA256.new(data=data).hexdigest() == sample_hash
 
         case 96:
-            h = SHA384.new()
+            return SHA384.new(data=data).hexdigest() == sample_hash
 
         case 128:
-            h = SHA512.new()
+            return SHA512.new(data=data).hexdigest() == sample_hash
 
         case _:
-            raise ValueError
-
-    h.update(data)
-    return sample_hash == h.hexdigest()
+            raise ValueError(f"Unknown hash: {sample_hash}")
